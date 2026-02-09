@@ -8,8 +8,14 @@ Students can run these tests locally to check basic correctness of their impleme
 The hidden test suite used for grading contains additional edge cases and will not be
 available to students.
 """
+import sys
+from pathlib import Path
+
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 import pytest
-from solution import suggest_slots
+from src.solution import suggest_slots
 
 
 def test_single_event_blocks_overlapping_slots():
@@ -63,4 +69,4 @@ def test_lunch_break_blocks_all_slots_during_lunch():
     assert "12:30" not in slots
     assert "12:45" not in slots
 
-"""TODO: Add at least 5 additional test cases to test your implementation."""
+
