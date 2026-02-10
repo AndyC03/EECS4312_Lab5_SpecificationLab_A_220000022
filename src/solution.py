@@ -1,5 +1,6 @@
 ## Student Name: Andy
 ## Student ID: 220000022
+from datetime import datetime
 from typing import List, Dict
 
 
@@ -45,6 +46,10 @@ def suggest_slots(
     # Add lunch break as a blocked interval
     busy_intervals.append((LUNCH_START, LUNCH_END))
 
+    # Fridays: no meeting may start after 15:00
+    FRIDAY_CUTOFF = 15 * 60  # 15:00 in minutes
+    is_friday = datetime.strptime(day, "%Y-%m-%d").weekday() == 4
+
     valid_slots = []
     current = WORK_START
 
@@ -58,7 +63,11 @@ def suggest_slots(
                 break
 
         if not conflict:
-            valid_slots.append(to_time_str(current))
+            # Exclude slots that start after 15:00 on Fridays
+            if is_friday and current >= FRIDAY_CUTOFF:
+                pass
+            else:
+                valid_slots.append(to_time_str(current))
 
         current += STEP
 
